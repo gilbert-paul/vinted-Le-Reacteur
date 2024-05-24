@@ -48,9 +48,10 @@ const publishOffer = async (req, res) => {
       { EMPLACEMENT: city },
     ],
     product_pictures: [],
+    product_image:{},
     owner: req.user,
   });
-
+  await newOffer.save();
   if (req.files) {
     const result = await cloudinary.uploader.upload(
       convertToBase64(req.files.picture),
