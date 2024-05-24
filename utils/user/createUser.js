@@ -5,11 +5,13 @@ const encBase64 = require("crypto-js/enc-base64");
 const cloudinary = require("cloudinary").v2;
 const convertToBase64 = require("../convertToBase64.js");
 const emailVerify = require("../emailVerifiy.js");
+
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_CLOUD_API_KEY,
   api_secret: process.env.CLOUDINARY_CLOUD_API_SECRET,
 });
+
 
 /**
  * 
@@ -68,6 +70,7 @@ const createUser = async (req,res)=>{
       );
     }
     newUser.account.avatar = avatar;
+    await newUser.markModified("account");
     await newUser.save();
     const userInformations = {
       _id: newUser._id,

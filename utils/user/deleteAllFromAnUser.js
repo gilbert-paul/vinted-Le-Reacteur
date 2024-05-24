@@ -2,11 +2,7 @@ const axios = require("axios");
 const Offer = require("../../models/Offer");
 const User = require("../../models/User");
 const cloudinary = require("cloudinary").v2;
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_CLOUD_API_KEY,
-  api_secret: process.env.CLOUDINARY_CLOUD_API_SECRET,
-});
+
 const deleteAllFromAnUser = async (req, res) => {
   const thisUser = await User.findById(req.user._id);
   if (!thisUser) {
