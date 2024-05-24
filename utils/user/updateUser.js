@@ -16,10 +16,12 @@ const updateUser = async (req, res) => {
     return res.status(404).json({ message: "Id is invalid" });
   }
   const { username, email, newsletter } = req.body;
-  console.log(req.files)
-  if (req.files) {
-    newAvatar = Object.assign({},req.files)
+  const realReqFiles = Object.assign({},req.files)
+  console.log(realReqFiles)
+  if (realReqFiles) {
+    newAvatar = realReqFiles
   }
+  console.log(req.files)
   if (username) {
     thisUser.account.username = username;
   }
