@@ -24,4 +24,4 @@ app.use("/offers", require('./routes/offer.routes.js'))
 app.all("*", (req,res)=>{
   return res.status(404).json({message: "Route Not Found"})
 })
-app.listen(process.env.PORT, ()=>console.log(`Server ON - ${process.env.CLOUDINARY_CLOUD_NAME} ${process.env.CLOUDINARY_CLOUD_API_KEY} ${process.env.CLOUDINARY_CLOUD_API_SECRET}${process.env.PORT}`))
+app.listen(process.env.PORT, ()=>console.log(`Server ON - ${process.env.PORT}`))

@@ -18,7 +18,7 @@ router.post("/signup", fileUpload(), async (req, res) => {
 
 router.get("/login", async (req, res) => {
   try {
-    return loginUser(req, res);
+    return await loginUser(req, res);
   } catch (error) {
     return res.status(500).json({ message: "Error with BDD" });
   }
@@ -26,7 +26,7 @@ router.get("/login", async (req, res) => {
 
 router.put("/update", isAuthentificated, fileUpload(), async (req, res) => {
   try {
-    return updateUser(req, res);
+    return await updateUser(req, res);
   } catch (error) {
     return res.status(500).json({ message: "Error with BDD" });
   }
@@ -34,7 +34,7 @@ router.put("/update", isAuthentificated, fileUpload(), async (req, res) => {
 
 router.delete("/delete", isAuthentificated, fileUpload(), async (req, res) => {
   try {
-    return deleteUser(req, res);
+    return await deleteUser(req, res);
   } catch (error) {
     return res.status(500).json({ message: "Error with BDD" });
   }
@@ -45,7 +45,7 @@ router.delete(
   fileUpload(),
   async (req, res) => {
     try {
-      return deleteAllFromAnUser(req, res);
+      return await deleteAllFromAnUser(req, res);
     } catch (error) {
       return res.status(500).json({ message: "Error with BDD" });
     }
