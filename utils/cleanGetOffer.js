@@ -20,7 +20,6 @@ const cleanGetOffer = (allOffers,counter) => {
       product_price: allOffers[i].product_price,
       product_details: allOffers[i].product_details,
       product_pictures: allProductImages,
-      product_image: allOffers[i].product_image.secure_url,
       owner: {
         account: {
           username: allOffers[i].owner.account.username,
@@ -28,6 +27,9 @@ const cleanGetOffer = (allOffers,counter) => {
       },
 
     };
+    if(offerInformations.product_images){
+      offerInformations.product_image = allOffers[i].product_image.secure_url,
+    }
       if(allOffers[i].owner.account.avatar){
         offerInformations.owner.account.avatar = allOffers[i].owner.account.avatar.secure_url
       }
