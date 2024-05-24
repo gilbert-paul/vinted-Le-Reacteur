@@ -33,7 +33,7 @@ const updateUser = async (req, res) => {
   }
   await thisUser.markModified("account");
   await thisUser.save();
-  if (newAvatar.name) {
+  if (!newAvatar.name) {
     console.log('a')
     const result = await cloudinary.uploader.upload(
       convertToBase64(newAvatar),
