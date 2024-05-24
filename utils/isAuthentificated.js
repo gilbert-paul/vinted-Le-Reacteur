@@ -12,7 +12,7 @@ const isAuthentificated = async (req, res, next) => {
       return res.status(401).json({ message: "You need to be connected" });
     }
     const headersToken = req.headers.authorization.replace("Bearer ", "");
-    const thisUser = await User.findOne({token:headersToken}).select("account")
+    const thisUser = await User.findOne({token:headersToken}).select("account _id")
     if (thisUser) {
     req.user = thisUser;
       return next();
