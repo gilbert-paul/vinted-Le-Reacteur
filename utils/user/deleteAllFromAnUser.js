@@ -51,7 +51,7 @@ const deleteAllFromAnUser = async (req, res) => {
   console.log("c")
 
   if (thisUser.account.avatar.public_id) {
-    await cloudinary.api.delete_resources(thisUser.account.avatar.public_id);
+    await cloudinary.api.delete_resources(thisUser.account.avatar.folder);
   }
   console.log("d")
 
