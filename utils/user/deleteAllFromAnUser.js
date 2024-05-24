@@ -19,10 +19,10 @@ const deleteAllFromAnUser = async (req, res) => {
           
           if (thisOffer.product_pictures.length > 0) {
             await cloudinary.api.delete_resources_by_prefix(
-              thisOffer.product_images.folder
+              thisOffer.product_image.folder
             );
             console.log(1)
-            await cloudinary.api.delete_folder(tthisOffer.product_images.folder);
+            await cloudinary.api.delete_folder(thisOffer.product_image.folder);
             console.log(2)
   
             await Offer.findByIdAndDelete(thisOffer._id);
