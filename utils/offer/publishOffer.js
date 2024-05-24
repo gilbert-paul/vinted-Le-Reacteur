@@ -59,6 +59,7 @@ const publishOffer = async (req, res) => {
       { folder: `/vinted-live/offer/${newOffer._id}` }
     );
     newOffer.product_pictures.push(productImage)
+    newOffer.product_image = productImage
   }
   await newOffer.markModified("product_image");
   await newOffer.save();

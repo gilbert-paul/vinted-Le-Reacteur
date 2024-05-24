@@ -19,7 +19,7 @@ const cleanGetOffer = (allOffers,counter) => {
       product_description: allOffers[i].product_description,
       product_price: allOffers[i].product_price,
       product_details: allOffers[i].product_details,
-      product_pictures: allOffers[i].product_pictures,
+      product_pictures: allOffers[i].product_pictures.secure_url,
       product_image: allProductImages,
       owner: {
         account: {
