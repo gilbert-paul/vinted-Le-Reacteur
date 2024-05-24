@@ -16,6 +16,7 @@ const updateUser = async (req, res) => {
     return res.status(404).json({ message: "Id is invalid" });
   }
   const { username, email, newsletter } = req.body;
+  console.log(req.files)
   if (req.files) {
     newAvatar = req.files.avatar;
   }
@@ -40,7 +41,7 @@ const updateUser = async (req, res) => {
         folder: `vinted/users/${thisUser._id}`,
       }
     );
-    console.log(result)
+
     if (thisUser.account.avatar) {
       await cloudinary.uploader.destroy(thisUser.account.avatar.public_id);
     }
