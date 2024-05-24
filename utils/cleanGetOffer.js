@@ -19,8 +19,8 @@ const cleanGetOffer = (allOffers,counter) => {
       product_description: allOffers[i].product_description,
       product_price: allOffers[i].product_price,
       product_details: allOffers[i].product_details,
-      product_pictures: allOffers[i].product_pictures.secure_url,
-      product_image: allProductImages,
+      product_pictures: allProductImages,
+      product_image: allOffers[i].product_image.secure_url
       owner: {
         account: {
           username: allOffers[i].owner.account.username,
