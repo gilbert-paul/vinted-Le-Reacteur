@@ -1,7 +1,11 @@
 const Offer = require("../../models/Offer");
 const convertToBase64 = require("../convertToBase64.js");
 const cloudinary = require("cloudinary").v2;
-
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_CLOUD_API_KEY,
+  api_secret: process.env.CLOUDINARY_CLOUD_API_SECRET,
+});
 /**
  * 
  * @param {Object} req 
