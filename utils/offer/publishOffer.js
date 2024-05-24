@@ -51,14 +51,14 @@ const publishOffer = async (req, res) => {
     product_image:{},
     owner: req.user,
   });
+  newOffer.product_image = {}
   await newOffer.save();
   if (req.files) {
-    const result = await cloudinary.uploader.upload(
+    newOffer.product_image = await cloudinary.uploader.upload(
       convertToBase64(req.files.picture),
       { folder: `/vinted/offer/${newOffer._id}` }
     );
-    newOffer.product_pictures.push(result)
-    newOffer.product_image = result;
+    newOffer.product_pictures.push(newOffer.product_image)
   }
   await newOffer.markModified("product_image");
   await newOffer.save();
