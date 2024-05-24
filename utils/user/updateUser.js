@@ -11,17 +11,17 @@ const cloudinary = require("cloudinary").v2;
  */
 const updateUser = async (req, res) => {
   const thisUser = await User.findById(req.user);
+  console.log(req)
   let newAvatar = {}
   if (!thisUser) {
     return res.status(404).json({ message: "Id is invalid" });
   }
   const { username, email, newsletter } = req.body;
-  const realReqFiles = Object.assign({},req.files)
-  console.log(realReqFiles)
-  if (realReqFiles) {
-    newAvatar = realReqFiles
+ 
+  if (req.files) {
+    newAvatar = req.files
   }
-  console.log(req.files)
+
   if (username) {
     thisUser.account.username = username;
   }
