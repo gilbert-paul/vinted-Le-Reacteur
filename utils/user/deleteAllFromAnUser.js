@@ -1,4 +1,3 @@
-const axios = require("axios");
 const Offer = require("../../models/Offer");
 const User = require("../../models/User");
 const cloudinary = require("cloudinary").v2;
