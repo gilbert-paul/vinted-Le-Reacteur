@@ -11,7 +11,7 @@ const cloudinary = require("cloudinary").v2;
  */
 const updateUser = async (req, res) => {
   const thisUser = await User.findById(req.user);
-  let newAvatar = {}
+  let newAvatar = {}
   if (!thisUser) {
     return res.status(404).json({ message: "Id is invalid" });
   }
@@ -34,13 +34,13 @@ const updateUser = async (req, res) => {
   await thisUser.markModified("account");
 
   if (newAvatar.name) {
-    console.log('a')
     const result = await cloudinary.uploader.upload(
       convertToBase64(newAvatar),
       {
         folder: `vinted/users/${thisUser._id}`,
       }
     );
+    console.log(result)
     if (thisUser.account.avatar) {
       await cloudinary.uploader.destroy(thisUser.account.avatar.public_id);
     }
