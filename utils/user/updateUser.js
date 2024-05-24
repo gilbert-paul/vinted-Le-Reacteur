@@ -39,9 +39,9 @@ const updateUser = async (req, res) => {
   }
   await thisUser.markModified("account");
 
-  if (newAvatar.name) {
+  if (newAvatar) {
     const result = await cloudinary.uploader.upload(
-      convertToBase64(newAvatar),
+      convertToBase64(newAvatar.data),
       {
         folder: `vinted/users/${thisUser._id}`,
       }
