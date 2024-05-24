@@ -3,7 +3,8 @@ const User = require("../../models/User");
 const cloudinary = require("cloudinary").v2;
 
 const deleteAllFromAnUser = async (req, res) => {
-  const thisUser = await User.findById(req.user._id).populate("avatar");
+  console.log(req.user)
+  const thisUser = await User.findById(req.user._id);
   if (!thisUser) {
     return res.status(404).json({ message: "Id is invalid" });
   }
