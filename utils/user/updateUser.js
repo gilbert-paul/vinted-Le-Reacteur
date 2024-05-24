@@ -18,7 +18,7 @@ const updateUser = async (req, res) => {
   const { username, email, newsletter } = req.body;
   console.log(req.files)
   if (req.files) {
-    newAvatar = req.files.avatar;
+    newAvatar = JSON.parse(JSON.stringify(req.bodyreq.files.avatar))
   }
   if (username) {
     thisUser.account.username = username;
