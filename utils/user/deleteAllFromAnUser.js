@@ -15,18 +15,22 @@ const deleteAllFromAnUser = async (req, res) => {
       const thisOffer = allOffers[i]
       if (thisOffer) {      
   
-
-        if (thisOffer.product_pictures.length > 0) {
-          await cloudinary.api.delete_resources_by_prefix(
-            thisOffer.product_images.folder
-          );
-          console.log(1)
-          await cloudinary.api.delete_folder(tthisOffer.product_images.folder);
-          console.log(2)
-
-          await Offer.findByIdAndDelete(thisOffer._id);
-          console.log(3)
-
+        try {
+          
+          if (thisOffer.product_pictures.length > 0) {
+            await cloudinary.api.delete_resources_by_prefix(
+              thisOffer.product_images.folder
+            );
+            console.log(1)
+            await cloudinary.api.delete_folder(tthisOffer.product_images.folder);
+            console.log(2)
+  
+            await Offer.findByIdAndDelete(thisOffer._id);
+            console.log(3)
+  
+          }
+        } catch (error) {
+          console.log(error)
         }
       }
       // await axios
