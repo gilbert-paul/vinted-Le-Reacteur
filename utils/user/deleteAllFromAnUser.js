@@ -14,7 +14,7 @@ const deleteAllFromAnUser = async (req, res) => {
     for (let i = 0; i < allOffers.length; i++) {
       const thisOffer = allOffers[i]
       if (thisOffer) {      
-  console.log("b")
+  console.log(thisOffer)
 
         if (thisOffer.product_pictures.length > 0) {
           await cloudinary.api.delete_resources_by_prefix(
