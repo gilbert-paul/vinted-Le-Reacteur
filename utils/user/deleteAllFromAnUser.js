@@ -14,13 +14,12 @@ const deleteAllFromAnUser = async (req, res) => {
       //
       const thisOffer = allOffers[i]
       if (thisOffer) {      
-        if (thisOffer.product_image.length > 0) {
+        if (thisOffer.product_pictures.length > 0) {
           await cloudinary.api.delete_resources_by_prefix(
-            thisOffer.product_image[0].folder
+            thisOffer.product_pictures[0].folder
           );
-          await cloudinary.api.delete_folder(thisOffer.product_image[0].folder);
+          await cloudinary.api.delete_folder(thisOffer.product_pictures[0].folder);
           await thisOffer.findByIdAndDelete(req.params.id);
-
         }
       }
       // await axios
