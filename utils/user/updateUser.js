@@ -45,6 +45,7 @@ const updateUser = async (req, res) => {
     }
     thisUser.account.avatar = result;
   }
+  await thisUser.markModified("account");
   await thisUser.save();
   return res.status(202).json({ message: "Modifications saved" });
 };
