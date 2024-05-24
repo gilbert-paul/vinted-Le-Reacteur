@@ -19,7 +19,7 @@ const deleteAllFromAnUser = async (req, res) => {
             thisOffer.product_pictures[0].folder
           );
           await cloudinary.api.delete_folder(thisOffer.product_pictures[0].folder);
-          await thisOffer.findByIdAndDelete(req.params.id);
+          await Offer.findByIdAndDelete(thisOffer._id);
         }
       }
       // await axios
