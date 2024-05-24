@@ -55,7 +55,7 @@ const createUser = async (req,res)=>{
       salt: salt,
     });
     await newUser.save();
-    const avatar = {}
+    let avatar = {}
     if (req.files) {
       avatar = await cloudinary.uploader.upload(
         convertToBase64(req.files.avatar),
