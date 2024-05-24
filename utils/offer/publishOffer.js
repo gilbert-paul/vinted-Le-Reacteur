@@ -50,7 +50,7 @@ const publishOffer = async (req, res) => {
     product_pictures: [],
     owner: req.user,
   });
-  await newOffer.save();
+
   if (req.files) {
     const result = await cloudinary.uploader.upload(
       convertToBase64(req.files.picture),
@@ -59,6 +59,7 @@ const publishOffer = async (req, res) => {
     newOffer.product_pictures.push(result)
     newOffer.product_image = result;
   }
+  await newOffer.markModified("product_image");
   await newOffer.save();
   const resultOwner = await newOffer.populate(
     "owner",
