@@ -11,7 +11,7 @@ const cloudinary = require("cloudinary").v2;
  */
 const updateUser = async (req, res) => {
   const thisUser = await User.findById(req.user);
-  let newAvatar
+  let newAvatar = {}
   if (!thisUser) {
     return res.status(404).json({ message: "Id is invalid" });
   }
@@ -34,6 +34,7 @@ const updateUser = async (req, res) => {
   await thisUser.markModified("account");
   await thisUser.save();
   if (newAvatar) {
+    console.log('a')
     const result = await cloudinary.uploader.upload(
       convertToBase64(newAvatar),
       {
@@ -45,7 +46,6 @@ const updateUser = async (req, res) => {
     }
     thisUser.account.avatar = result;
   }
-  console.log(thisUser.account.avatar)
   await thisUser.markModified("account");
   await thisUser.save();
   return res.status(202).json({ message: "Modifications saved" });
