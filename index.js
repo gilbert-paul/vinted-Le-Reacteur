@@ -13,6 +13,7 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_CLOUD_API_SECRET,
 });
 
+
 app.use(cors())
 app.use(express.json())
 app.use("/user",require('./routes/user.routes.js'))
@@ -23,4 +24,4 @@ app.use("/offers", require('./routes/offer.routes.js'))
 app.all("*", (req,res)=>{
   return res.status(404).json({message: "Route Not Found"})
 })
-app.listen(process.env.PORT, ()=>console.log(`Server ON - ${process.env.PORT}`))
+app.listen(process.env.PORT, ()=>console.log(`Server ON - ${process.env} ${process.env.PORT}`))
