@@ -10,7 +10,7 @@ const Offer = require("../../models/Offer");
 const deleteOffer = async(req,res)=>{
   const thisOffer = await Offer.findById(req.params.id);
       if (thisOffer) {
-        if (thisOffer.product_image.length > 0) {
+        if (thisOffer.product_image) {
           await cloudinary.api.delete_resources_by_prefix(
             thisOffer.product_image[0].folder
           );

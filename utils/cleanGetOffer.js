@@ -10,8 +10,8 @@ const cleanGetOffer = (allOffers,counter) => {
   allOffersInformations.offers = [];
   for (let i = 0; i < allOffers.length; i++) {
     const allProductImages = [];
-    for (let j = 0; j < allOffers[i].product_image.length; j++) {
-      allProductImages.push(allOffers[i].product_image[j].secure_url);
+    for (let j = 0; j < allOffers[i].product_pictures.length; j++) {
+      allProductImages.push(allOffers[i].product_pictures[j].secure_url);
     }
 
     const offerInformations = {
