@@ -20,7 +20,7 @@ const updateOffer = async (req, res) => {
   if (req.files) {
     const result = await cloudinary.uploader.upload(
       convertToBase64(req.files.picture),
-      { folder: `/vinted/offer/${thisOffer._id}` }
+      { folder: `/vinted-live/offer/${thisOffer._id}` }
     );
     thisOffer.product_pictures.push(result)
     thisOffer.product_image = result;
