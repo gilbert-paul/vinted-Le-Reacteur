@@ -4,35 +4,38 @@ const emailVerify = require("../emailVerifiy");
 const encBase64 = require("crypto-js/enc-base64");
 
 /**
- * 
- * @param {Object} req 
- * @param {Object} res 
- * @returns {Promise}
+ * @typedef Result
+ * @property {String | Object} message
+ * @property {Number} status
  */
-const loginUser = async (req,res)=>{
-  const { email, password } = req.body;
+/**
+ *
+ * @param {String} email
+ * @param {String} password
+ * @returns {Promise<Result>}
+ */
+const loginUser = async (email,password)=>{
+
 if (!password) {
-  return res.status(417).json({ message: "Password missing" });
+  return { message: "Password missing", status: 417 };
 }
 if (!email) {
-  return res.status(417).json({ message: "Email missing" });
+  return { message: "Email missing", status: 417 };
 }
-if (!emailVerify(email)) {
-  return res.status(417).json({ message: "Mail is invalid" });
-}
+
 const thisUser = await User.findOne({ email: email });
 if (!thisUser) {
-  return res.status(400).json({ message: "Invalid email or password" });
+  return { message: "Invalid email or password", status: 417 };
 }
 const thisHash = SHA256(password + thisUser.salt).toString(encBase64);
 if (thisHash !== thisUser.hash) {
-  return res.status(417).json({ message: "Invalid email or password" });
+  return { message: "Invalid email or password", status: 417 };
 }
 const userInformations = {
   _id: thisUser._id,
   token: thisUser.token,
   account: thisUser.account,
 };
-return res.status(202).json({message: "You are connected !"});
+return { message: "You are connected !", status: 202 };
 }
 module.exports = loginUser

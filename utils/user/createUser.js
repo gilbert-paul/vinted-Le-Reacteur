@@ -12,11 +12,6 @@ const { Model } = require("mongoose");
  * @property {Number} status
  */
 /**
- * @typedef  {Model} User
- */
-/**
- */
-/**
  *
  * @param {String} email
  * @param {String} username

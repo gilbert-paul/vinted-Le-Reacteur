@@ -24,7 +24,9 @@ router.post("/signup", fileUpload(), async (req, res) => {
 
 router.get("/login", async (req, res) => {
   try {
-    return await loginUser(req, res);
+  const { email, password } = req.body;
+    const result = await loginUser(email, password)
+    return res.status(result.status).json(result.message)
   } catch (error) {
     return res.status(500).json({ message: "Error with BDD" });
   }
