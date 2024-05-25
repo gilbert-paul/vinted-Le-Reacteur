@@ -60,7 +60,7 @@ const createUser = async (req,res)=>{
       avatar = await cloudinary.uploader.upload(
         convertToBase64(req.files.avatar),
         {
-          folder: `vinted-live/users/${newUser._id}`,
+          folder: `${process.env.CLOUDINARY_FOLDER}/users/${newUser._id}`,
         }
       );
     }

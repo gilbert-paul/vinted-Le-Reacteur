@@ -38,7 +38,7 @@ const updateUser = async (req, res) => {
     const result = await cloudinary.uploader.upload(
       convertToBase64(req.files.avatar),
       {
-        folder: `vinted-live/users/${thisUser._id}`,
+        folder: `${process.env.CLOUDINARY_FOLDER}/users/${thisUser._id}`,
       }
     );
 
