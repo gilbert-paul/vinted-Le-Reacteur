@@ -2,27 +2,35 @@ const cleanGetOffer = require("../cleanGetOffer");
 const filterOffer = require("../filterOffer");
 
 /**
- *
- * @param {Object} req
- * @param {Object} res
- * @returns {Promise}
+ * @typedef Result
+ * @property {String | Object} message
+ * @property {Number} status
  */
-const seeMyOffers = async (req, res) => {
-  const allOffersParam = await filterOffer(req, true)
+/**
+ *
+ * @param {Object} allInformations
+ * @returns {Promise<Result>}
+ */
+const seeMyOffers = async (allInformations) => {
+  const allOffersParam = await filterOffer(allInformations, true)
+  console.log(allOffersParam)
   
   const allOffers = allOffersParam.allOffers
   if (!allOffers) {
-    return res.status(404).json({ message: "Offer not found" });
+    return { message: "Offer not found", status: 404 };
+
   }
   const allOffersInformations = cleanGetOffer(allOffers, allOffers.length)
-  if(allOffersInformations.count === 0){
-    return res.status(404).json({message: "There is no offer here"})
-  }
-  if(allOffersParam.thisPage > Math.ceil(allOffersInformations.count/allOffersParam.numberLimit)){
-    return res.status(404).json({message: `There is no offer on this page, the last offer is page ${Math.ceil(allOffersInformations.count/allOffersParam.numberLimit)}`})
+  if(allOffersParam.counter === 0){
+    return { message: "This offer doesn't exist", status: 404 };
+
   }
 
-  return res.status(202).json(allOffersInformations);
+  if(allOffersParam.thisPage > Math.ceil(allOffersInformations.count/allOffersParam.numberLimit)){
+    return { message: `There is no offer on this page, the last offer is page ${Math.ceil(allOffersInformations.count/allOffersParam.numberLimit)+1}`, status: 404 };
+  }
+
+  return { message: allOffersInformations, status: 202 };
 };
 
 module.exports = seeMyOffers;

@@ -1,25 +1,30 @@
 const Offer = require("../../models/Offer");
 const convertToBase64 = require("../convertToBase64.js");
 const cloudinary = require("cloudinary").v2;
-
+/**
+ * @typedef Result
+ * @property {String | Object} message
+ * @property {Number} status
+ */
 /**
  * 
- * @param {Object} req 
- * @param {Object} res 
- * @returns {Promise}
+ * @param {String} thisOfferID
+ * @param {Object} allInformations
+ * @param {Object} newImage
+ * @returns {Promise<Result>}
  */
-const updateOffer = async (req, res) => {
-  const thisOffer = await Offer.findById(req.params.id);
+const updateOffer = async (thisOfferID, allInformations, newImage) => {
+  const thisOffer = await Offer.findById(thisOfferID);
   if (!thisOffer) {
-    return res.status(404).json({ message: "This offer doesn't exist" });
+    return { message: "This offer doesn't exist", status: 404 };
   }
 
   const { title, description, price, condition, city, brand, size, color } =
-    req.body;
+    allInformations;
 
-  if (req.files) {
+  if (newImage.picture) {
     const result = await cloudinary.uploader.upload(
-      convertToBase64(req.files.picture),
+      convertToBase64(newImage.picture),
       { folder: `${process.env.CLOUDINARY_FOLDER}/offer/${thisOffer._id}` }
     );
     thisOffer.product_pictures.push(result)
@@ -28,22 +33,22 @@ const updateOffer = async (req, res) => {
 
   if (title) {
     if (title.length > 50) {
-      return res.status(417).json({ message: "Your title is too long..." });
+    return { message: "Your title is too long...", status: 417 };
     }
 
     thisOffer.product_name = title;
   }
   if (description) {
     if (description.length > 500) {
-      return res
-        .status(417)
-        .json({ message: "Your description is too long..." });
+      return { message: "Your description is too long...", status: 417 };
+
     }
     thisOffer.description = description;
   }
   if (price) {
     if (Number(price) > 100000) {
-      return res.status(417).json({ message: "Your price is too hight..." });
+    return { message: "Your price is too hight...", status: 417 };
+
     }
 
     thisOffer.price = price;
@@ -67,7 +72,7 @@ const updateOffer = async (req, res) => {
   await thisOffer.markModified("product_image");
 
   await thisOffer.save();
-  return res.status(202).json(thisOffer);
+  return { message: thisOffer, status: 202 };
 };
 
 module.exports = updateOffer;

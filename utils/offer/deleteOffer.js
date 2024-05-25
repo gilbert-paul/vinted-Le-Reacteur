@@ -2,23 +2,29 @@ const cloudinary = require("cloudinary").v2;
 const Offer = require("../../models/Offer");
 
 /**
- * 
- * @param {Object} res 
- * @param {Object} req 
- * @returns {Promise}
+ * @typedef Result
+ * @property {String | Object} message
+ * @property {Number} status
  */
-const deleteOffer = async(req,res)=>{
-  const thisOffer = await Offer.findById(req.params.id);
-  if (thisOffer) {
-    if (thisOffer.product_image) {
-      await cloudinary.api.delete_resources_by_prefix(
-        thisOffer.product_image[0].folder
-      );
-      await cloudinary.api.delete_folder(thisOffer.product_image[0].folder);
+/**
+ * 
+ * @param {String} thisOfferID
+ * @returns {Promise<Result>}
+ */
+const deleteOffer = async(thisOfferID)=>{
+
+    const thisOffer = await Offer.findById(thisOfferID);
+    if (thisOffer) {
+      console.log(thisOffer)
+      if (thisOffer.product_image) {
+        await cloudinary.api.delete_resources_by_prefix(
+          thisOffer.product_image.folder
+        );
+        await cloudinary.api.delete_folder(thisOffer.product_image.folder);
+      }
     }
-  }
-  await Offer.findByIdAndDelete(req.params.id);
-  return res.status(202).json({ message: "Offer deleted with success !" });
+    await Offer.findByIdAndDelete(thisOfferID);
+    return { message: "Offer deteled with success !", status: 202 };
 }
 
 module.exports = deleteOffer

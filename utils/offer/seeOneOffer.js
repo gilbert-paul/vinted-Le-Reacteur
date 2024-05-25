@@ -2,20 +2,29 @@ const Offer = require("../../models/Offer");
 const cleanGetOffer = require("../cleanGetOffer");
 
 /**
- * 
- * @param {Object} req 
- * @param {Object} res 
- * @returns {Promise}
+ * @typedef Result
+ * @property {String | Object} message
+ * @property {Number} status
  */
-const seeOneOffer = async(req,res)=>{
-  const thisOffer = await Offer.findById(req.params.id).populate("owner")
-  if (!thisOffer) {
-    return res.status(404).json({ message: "Offer not found" });
+/**
+ *
+ * @param {String} thisOfferID
+ * @returns {Promise<Result>}
+ */
+const seeOneOffer = async (thisOfferID) => {
+  try {
+    const thisOffer = await Offer.findById(thisOfferID)
+      .populate("owner")
+      .populate({ path: "account.avatar", strictPopulate: false })
+    if (!thisOffer) {
+      return { message: "This offer doesn't exist", status: 404 };
+    }
+    const thisOfferArray = [thisOffer];
+    const offerInformations = cleanGetOffer(thisOfferArray, 1);
+    return { message: offerInformations.offers[0], status: 202 };
+  } catch (e) {
+    console.log(e);
   }
-  const thisOfferArray = [thisOffer]
-  const offerInformations = cleanGetOffer(thisOfferArray, 1)
+};
 
-  return res.status(202).json(offerInformations.offers[0]);
-}
-
-module.exports = seeOneOffer
+module.exports = seeOneOffer;

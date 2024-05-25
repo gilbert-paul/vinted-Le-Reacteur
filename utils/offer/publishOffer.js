@@ -4,37 +4,45 @@ const convertToBase64 = require("../convertToBase64.js");
 const cloudinary = require("cloudinary").v2;
 
 /**
- * 
- * @param {Object} req 
- * @param {Object} res 
- * @returns {Promise}
+ * @typedef Result
+ * @property {String | Object} message
+ * @property {Number} status
  */
-const publishOffer = async (req, res) => {
+/**
+ *
+ * @param {Object} allInformations
+ * @param {Object} user
+ * @param {Object} image
+ * @returns {Promise<Result>}
+ */
+const publishOffer = async (allInformations, user, image) => {
   const { title, description, price, condition, city, brand, size, color } =
-    req.body;
-  const missingInformations = offerVerify(req.body);
+    allInformations;
+  const missingInformations = offerVerify(allInformations);
   if (missingInformations.length === 1) {
-    return res
-      .status(417)
-      .json({ message: `${missingInformations.join("")} is missing` });
+    return {
+      message: `${missingInformations.join("")} is missing`,
+      status: 417,
+    };
   }
   if (missingInformations.length > 1) {
-    return res.status(417).json({
+    return {
       message: `${missingInformations
         .slice(0, missingInformations.length - 1)
         .join("")} and ${missingInformations[
         missingInformations.length - 1
       ].replace(", ", "")} are missing`,
-    });
+      status: 417,
+    };
   }
   if (title.length > 50) {
-    return res.status(417).json({ message: "Your title is too long..." });
+    return { message: "Your title is too long...", status: 417 };
   }
   if (description.length > 500) {
-    return res.status(417).json({ message: "Your description is too long..." });
+    return { message: "Your description is too long...", status: 417 };
   }
   if (Number(price) > 100000) {
-    return res.status(417).json({ message: "Your price is too hight..." });
+    return { message: "Your price is too hight...", status: 417 };
   }
   const newOffer = await new Offer({
     product_name: title,
@@ -48,18 +56,18 @@ const publishOffer = async (req, res) => {
       { EMPLACEMENT: city },
     ],
     product_pictures: [],
-    product_image:{},
-    owner: req.user,
+    product_image: {},
+    owner: user,
   });
-  let productImage = {}
+  let productImage = {};
   await newOffer.save();
-  if (req.files) {
+  if (image.picture) {
     productImage = await cloudinary.uploader.upload(
-      convertToBase64(req.files.picture),
+      convertToBase64(image.picture),
       { folder: `${process.env.CLOUDINARY_FOLDER}/offer/${newOffer._id}` }
     );
-    newOffer.product_pictures.push(productImage)
-    newOffer.product_image = productImage
+    newOffer.product_pictures.push(productImage);
+    newOffer.product_image = productImage;
   }
   await newOffer.markModified("product_image");
   await newOffer.save();
@@ -67,7 +75,7 @@ const publishOffer = async (req, res) => {
     "owner",
     "account.username account.avatar.secure_url"
   );
-  return res.status(202).json(resultOwner);
+  return { message: resultOwner, status: 201 };
 };
 
 module.exports = publishOffer;

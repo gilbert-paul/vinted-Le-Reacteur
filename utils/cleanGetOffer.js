@@ -27,7 +27,7 @@ const cleanGetOffer = (allOffers,counter) => {
       },
 
     };
-    if(allOffers[i].product_image.secure_url){
+    if(allOffers[i].product_image){
       offerInformations.product_image = allOffers[i].product_image.secure_url
     }
       if(allOffers[i].owner.account.avatar){
