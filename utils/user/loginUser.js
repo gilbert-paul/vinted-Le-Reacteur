@@ -26,7 +26,6 @@ const thisUser = await User.findOne({ email: email });
 if (!thisUser) {
   return { message: "Invalid email or password", status: 417 };
 }
-console.log(thisHash)
 const thisHash = SHA256(password + thisUser.salt).toString(encBase64);
 if (thisHash !== thisUser.hash) {
   return { message: "Invalid email or password", status: 417 };

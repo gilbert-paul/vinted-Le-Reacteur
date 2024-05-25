@@ -11,12 +11,18 @@ const deleteAllFromAnUser = require("../utils/user/deleteAllFromAnUser.js");
 router.post("/signup", fileUpload(), async (req, res) => {
   try {
     const { email, username, password, newsletter } = req.body;
-    let avatar = {}
-    if(req.files){
-      avatar = req.files
+    let avatar = {};
+    if (req.files) {
+      avatar = req.files;
     }
-    const result = await createUser(email, username, password, newsletter,avatar)
-    return res.status(result.status).json(result.message)
+    const result = await createUser(
+      email,
+      username,
+      password,
+      newsletter,
+      avatar
+    );
+    return res.status(result.status).json(result.message);
   } catch (error) {
     return res.status(500).json({ message: "Error with BDD" });
   }
@@ -24,9 +30,9 @@ router.post("/signup", fileUpload(), async (req, res) => {
 
 router.get("/login", async (req, res) => {
   try {
-  const { email, password } = req.body;
-    const result = await loginUser(email, password)
-    return res.status(result.status).json(result.message)
+    const { email, password } = req.body;
+    const result = await loginUser(email, password);
+    return res.status(result.status).json(result.message);
   } catch (error) {
     return res.status(500).json({ message: "Error with BDD" });
   }
@@ -34,15 +40,21 @@ router.get("/login", async (req, res) => {
 
 router.put("/update", isAuthentificated, fileUpload(), async (req, res) => {
   try {
-    const user = req.user
+    const user = req.user;
 
     const { username, email, newsletter } = req.body;
-    let newAvatar = {}
-    if(req.files){
-      newAvatar = req.files
+    let newAvatar = {};
+    if (req.files) {
+      newAvatar = req.files;
     }
-    const result = await updateUser(user, username, email, newsletter, newAvatar);
-    return res.status(result.status).json(result.message)
+    const result = await updateUser(
+      user,
+      username,
+      email,
+      newsletter,
+      newAvatar
+    );
+    return res.status(result.status).json(result.message);
   } catch (error) {
     return res.status(500).json({ message: "Error with BDD" });
   }
@@ -50,7 +62,9 @@ router.put("/update", isAuthentificated, fileUpload(), async (req, res) => {
 
 router.delete("/delete", isAuthentificated, fileUpload(), async (req, res) => {
   try {
-    return await deleteUser(req, res);
+    const user = req.user;
+    const result = await deleteUser(user);
+    return res.status(result.status).json(result.message);
   } catch (error) {
     return res.status(500).json({ message: "Error with BDD" });
   }
@@ -61,7 +75,9 @@ router.delete(
   fileUpload(),
   async (req, res) => {
     try {
-      return await deleteAllFromAnUser(req, res);
+      const user = req.user;
+      const result = await deleteAllFromAnUser(user);
+      return res.status(result.status).json(result.message);
     } catch (error) {
       return res.status(500).json({ message: "Error with BDD" });
     }
