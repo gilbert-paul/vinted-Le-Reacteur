@@ -4,28 +4,29 @@ const convertToBase64 = require("../convertToBase64.js");
 const cloudinary = require("cloudinary").v2;
 
 /**
- * 
- * @param {Object} req 
- * @param {Object} res 
- * @returns {Promise}
+ * @typedef Result
+ * @property {String | Object} message
+ * @property {Number} status
  */
-const updateUser = async (req, res) => {
-  const thisUser = await User.findById(req.user);
-
- 
+/**
+ * @param {Object} user
+ * @param {String} username
+ * @param {String} email
+ * @param {Boolean} newsletter
+ * @returns {Promise<Result>}
+ */
+const updateUser = async (user, username, email, newsletter, newAvatar) => {
+  const thisUser = await User.findById(user._id);
   if (!thisUser) {
-    return res.status(404).json({ message: "Id is invalid" });
+    return { message: "ID is invalid", status: 404 };
   }
-  const { username, email, newsletter } = req.body;
- 
-
 
   if (username) {
     thisUser.account.username = username;
   }
   if (email) {
     if (!emailVerify(email)) {
-      return res.status(417).json({ message: "Mail is invalid" });
+      return { message: "Mail is invalid", status: 417 };
     }
     thisUser.email = email;
   }
@@ -33,23 +34,24 @@ const updateUser = async (req, res) => {
     thisUser.newsletter = newsletter;
   }
   await thisUser.markModified("account");
-
-  if (req.files) {
-    const result = await cloudinary.uploader.upload(
-      convertToBase64(req.files.avatar),
+  await thisUser.save();
+  if (newAvatar.avatar) {
+    let avatarInformations = {};
+    avatarInformations = await cloudinary.uploader.upload(
+      convertToBase64(newAvatar.avatar),
       {
         folder: `${process.env.CLOUDINARY_FOLDER}/users/${thisUser._id}`,
       }
     );
-
     if (thisUser.account.avatar) {
       await cloudinary.uploader.destroy(thisUser.account.avatar.public_id);
     }
-    thisUser.account.avatar = result;
+    thisUser.account.avatar = avatarInformations;
   }
+
   await thisUser.markModified("account.avatar");
   await thisUser.save();
-  return res.status(202).json({ message: "Modifications saved" });
+  return { message: "Modifications saved", status: 202 };
 };
 
 module.exports = updateUser;

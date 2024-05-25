@@ -13,7 +13,7 @@ router.post("/signup", fileUpload(), async (req, res) => {
     const { email, username, password, newsletter } = req.body;
     let avatar = {}
     if(req.files){
-      avatar = req.files.avatar
+      avatar = req.files
     }
     const result = await createUser(email, username, password, newsletter,avatar)
     return res.status(result.status).json(result.message)
@@ -34,7 +34,15 @@ router.get("/login", async (req, res) => {
 
 router.put("/update", isAuthentificated, fileUpload(), async (req, res) => {
   try {
-    return await updateUser(req, res);
+    const user = req.user
+
+    const { username, email, newsletter } = req.body;
+    let newAvatar = {}
+    if(req.files){
+      newAvatar = req.files
+    }
+    const result = await updateUser(user, username, email, newsletter, newAvatar);
+    return res.status(result.status).json(result.message)
   } catch (error) {
     return res.status(500).json({ message: "Error with BDD" });
   }
