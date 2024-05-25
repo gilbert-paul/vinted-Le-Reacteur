@@ -12,7 +12,7 @@ const cleanGetOffer = require("../cleanGetOffer");
  * @returns {Promise<Result>}
  */
 const seeOneOffer = async (thisOfferID) => {
-  try {
+
     const thisOffer = await Offer.findById(thisOfferID)
       .populate("owner")
       .populate({ path: "account.avatar", strictPopulate: false })
@@ -22,9 +22,7 @@ const seeOneOffer = async (thisOfferID) => {
     const thisOfferArray = [thisOffer];
     const offerInformations = cleanGetOffer(thisOfferArray, 1);
     return { message: offerInformations.offers[0], status: 202 };
-  } catch (e) {
-    console.log(e);
-  }
+
 };
 
 module.exports = seeOneOffer;

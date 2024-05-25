@@ -12,9 +12,7 @@ const filterOffer = require("../filterOffer");
  * @returns {Promise<Result>}
  */
 const seeMyOffers = async (allInformations) => {
-  const allOffersParam = await filterOffer(allInformations, true)
-  console.log(allOffersParam)
-  
+  const allOffersParam = await filterOffer(allInformations, true)  
   const allOffers = allOffersParam.allOffers
   if (!allOffers) {
     return { message: "Offer not found", status: 404 };

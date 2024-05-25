@@ -15,7 +15,6 @@ const deleteOffer = async(thisOfferID)=>{
 
     const thisOffer = await Offer.findById(thisOfferID);
     if (thisOffer) {
-      console.log(thisOffer)
       if (thisOffer.product_image) {
         await cloudinary.api.delete_resources_by_prefix(
           thisOffer.product_image.folder

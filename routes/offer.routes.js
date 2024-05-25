@@ -37,7 +37,6 @@ router.get("/my-offers", isAuthentificated, async (req, res) => {
 });
 router.get("/", async (req, res) => {
   try {
-    console.log(req.query)
     const allInformations = {user:req.user, query:req.query}
    const result = await seeAllOffers(allInformations)
    return res.status(result.status).json(result.message);
