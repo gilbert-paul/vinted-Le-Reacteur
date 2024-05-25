@@ -10,7 +10,13 @@ const deleteAllFromAnUser = require("../utils/user/deleteAllFromAnUser.js");
 
 router.post("/signup", fileUpload(), async (req, res) => {
   try {
-    return createUser(req, res);
+    const { email, username, password, newsletter } = req.body;
+    let avatar = {}
+    if(req.files){
+      avatar = req.files.avatar
+    }
+    const result = await createUser(email, username, password, newsletter,avatar)
+    return res.status(result.status).json(result.message)
   } catch (error) {
     return res.status(500).json({ message: "Error with BDD" });
   }

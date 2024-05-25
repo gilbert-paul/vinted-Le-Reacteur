@@ -5,37 +5,47 @@ const encBase64 = require("crypto-js/enc-base64");
 const cloudinary = require("cloudinary").v2;
 const convertToBase64 = require("../convertToBase64.js");
 const emailVerify = require("../emailVerifiy.js");
-
-
-
+const { Model } = require("mongoose");
 /**
- * 
- * @param {Object} req 
- * @param {Object} res 
- * @returns {Promise}
+ * @typedef Result
+ * @property {String | Object} message
+ * @property {Number} status
  */
-const createUser = async (req,res)=>{
-  const { email, username, password, newsletter } = req.body;
+/**
+ * @typedef  {Model} User
+ */
+/**
+ */
+/**
+ *
+ * @param {String} email
+ * @param {String} username
+ * @param {String} password
+ * @param {Boolean} newsletter
+ * @param {Object} avatar
+ * @returns {Promise<Result>}
+ */
+const createUser = async (email, username, password, newsletter, avatar = {}) => {
+  try {
     if (!username) {
-      return res.status(417).json({ message: "Username is not defined" });
+      return { message: "Username is not defined", status: 409 };
     }
     if (!email) {
-      return res.status(417).json({ message: "Email is not defined" });
+      return { message: "Email is not defined", status: 409 };
     }
     if (!password) {
-      return res.status(417).json({ message: "Password is not defined" });
+      return { message: "Password is not defined", status: 409 };
     }
     if (!newsletter) {
-      return res
-        .status(417)
-        .json({ message: "Newsletter choice is not defined" });
+      return { message: "Newsletter choice is not defined", status:409 };
     }
     if (!emailVerify(email)) {
-      return res.status(417).json({ message: "Mail is invalid" });
+      return { message: "Mail is invalid", status: 409 };
     }
+
     const existingUser = await User.findOne({ email: email });
     if (existingUser) {
-      return res.status(409).json({ message: "Email already used" });
+      return { message: "Email already used", status: 417 };
     }
     let token = uid2(64);
     const tokenUserUsed = await User.findOne({ token: token });
@@ -43,7 +53,7 @@ const createUser = async (req,res)=>{
       token = uid2(64);
     }
     const salt = uid2(64);
-    const hash = SHA256(req.body.password + salt).toString(encBase64);
+    const hash = SHA256(password + salt).toString(encBase64);
     const newUser = new User({
       email: email,
       account: {
@@ -54,24 +64,28 @@ const createUser = async (req,res)=>{
       hash: hash,
       salt: salt,
     });
+
     await newUser.save();
-    let avatar = {}
-    if (req.files) {
-      avatar = await cloudinary.uploader.upload(
-        convertToBase64(req.files.avatar),
-        {
-          folder: `${process.env.CLOUDINARY_FOLDER}/users/${newUser._id}`,
-        }
-      );
+    if (avatar) {
+      avatar = await cloudinary.uploader.upload(convertToBase64(avatar), {
+        folder: `${process.env.CLOUDINARY_FOLDER}/users/${newUser._id}`,
+      });
     }
+
     newUser.account.avatar = avatar;
     await newUser.markModified("account");
     await newUser.save();
     const userInformations = {
       _id: newUser._id,
       token: newUser.token,
-      account: { username: newUser.account.username, avatar: newUser.account.avatar.secure_url },
+      account: {
+        username: newUser.account.username,
+        avatar: newUser.account.avatar.secure_url,
+      },
     };
-    return res.status(201).json(userInformations);
+    return { message: userInformations, status: 201 };
+  } catch (error) {
+    return { message: error.message, status: 404 };
   }
-module.exports = createUser
+};
+module.exports = createUser;
