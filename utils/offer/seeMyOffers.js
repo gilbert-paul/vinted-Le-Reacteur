@@ -18,14 +18,15 @@ const seeMyOffers = async (allInformations) => {
     return { message: "Offer not found", status: 404 };
 
   }
-  const allOffersInformations = cleanGetOffer(allOffers, allOffers.length)
-  if(allOffersParam.counter === 0){
+
+  const allOffersInformations = cleanGetOffer(allOffers, allOffersParam.counter)
+  if(allOffersInformations.count === 0){
     return { message: "This offer doesn't exist", status: 404 };
 
   }
 
   if(allOffersParam.thisPage > Math.ceil(allOffersInformations.count/allOffersParam.numberLimit)){
-    return { message: `There is no offer on this page, the last offer is page ${Math.ceil(allOffersInformations.count/allOffersParam.numberLimit)+1}`, status: 404 };
+    return { message: `There is no offer on this page, the last offer is page ${Math.ceil(allOffersInformations.count/allOffersParam.numberLimit)}`, status: 404 };
   }
 
   return { message: allOffersInformations, status: 202 };

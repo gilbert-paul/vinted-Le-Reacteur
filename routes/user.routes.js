@@ -10,17 +10,13 @@ const deleteAllFromAnUser = require("../utils/user/deleteAllFromAnUser.js");
 
 router.post("/signup", fileUpload(), async (req, res) => {
   try {
-    const { email, username, password, newsletter } = req.body;
+    const allInformationsUser= req.body;
     let avatar = {};
     if (req.files) {
       avatar = req.files;
     }
     const result = await createUser(
-      email,
-      username,
-      password,
-      newsletter,
-      avatar
+      allInformationsUser, avatar
     );
     return res.status(result.status).json(result.message);
   } catch (error) {

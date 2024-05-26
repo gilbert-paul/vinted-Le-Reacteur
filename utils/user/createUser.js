@@ -5,6 +5,7 @@ const encBase64 = require("crypto-js/enc-base64");
 const cloudinary = require("cloudinary").v2;
 const convertToBase64 = require("../convertToBase64.js");
 const emailVerify = require("../emailVerifiy.js");
+const userVerify = require("../userVerify.js");
 /**
  * @typedef Result
  * @property {String | Object} message
@@ -12,29 +13,45 @@ const emailVerify = require("../emailVerifiy.js");
  */
 /**
  *
- * @param {String} email
- * @param {String} username
- * @param {String} password
- * @param {Boolean} newsletter
+ * @param {Object} allInformationsUser
  * @param {Object} avatar
  * @returns {Promise<Result>}
  */
-const createUser = async (email, username, password, newsletter, avatar) => {
-  if (!username) {
-    return { message: "Username is not defined", status: 409 };
+const createUser = async (allInformationsUser, avatar) => {
+  const {username, email, password, newsletter} = allInformationsUser
+
+  const missingInformations = userVerify(allInformationsUser)
+  if (missingInformations.length === 1) {
+    return {
+      message: `${missingInformations.join("")} is missing`,
+      status: 417,
+    };
   }
-  if (!email) {
-    return { message: "Email is not defined", status: 409 };
+  if (missingInformations.length > 1) {
+    return {
+      message: `${missingInformations
+        .slice(0, missingInformations.length - 1)
+        .join("")} and ${missingInformations[
+        missingInformations.length - 1
+      ].replace(", ", "")} are missing`,
+      status: 417,
+    };
   }
-  if (!password) {
-    return { message: "Password is not defined", status: 409 };
-  }
-  if (!newsletter) {
-    return { message: "Newsletter choice is not defined", status: 409 };
-  }
+  // if (!username) {
+  //   return { message: "Username is not defined", status: 409 };
+  // }
+  // if (!email) {
+  //   return { message: "Email is not defined", status: 409 };
+  // }
+  // if (!password) {
+  //   return { message: "Password is not defined", status: 409 };
+  // }
+  // if (!newsletter) {
+  //   return { message: "Newsletter choice is not defined", status: 409 };
+  // }
   if (!emailVerify(email)) {
     return { message: "Mail is invalid", status: 409 };
-  }
+   }
 
   const existingUser = await User.findOne({ email: email });
   if (existingUser) {
