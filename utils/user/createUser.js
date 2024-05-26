@@ -18,9 +18,9 @@ const userVerify = require("../userVerify.js");
  * @returns {Promise<Result>}
  */
 const createUser = async (allInformationsUser, avatar) => {
-  const {username, email, password, newsletter} = allInformationsUser
+  const { username, email, password, newsletter } = allInformationsUser;
 
-  const missingInformations = userVerify(allInformationsUser)
+  const missingInformations = userVerify(allInformationsUser);
   if (missingInformations.length === 1) {
     return {
       message: `${missingInformations.join("")} is missing`,
@@ -37,21 +37,9 @@ const createUser = async (allInformationsUser, avatar) => {
       status: 417,
     };
   }
-  // if (!username) {
-  //   return { message: "Username is not defined", status: 409 };
-  // }
-  // if (!email) {
-  //   return { message: "Email is not defined", status: 409 };
-  // }
-  // if (!password) {
-  //   return { message: "Password is not defined", status: 409 };
-  // }
-  // if (!newsletter) {
-  //   return { message: "Newsletter choice is not defined", status: 409 };
-  // }
   if (!emailVerify(email)) {
     return { message: "Mail is invalid", status: 409 };
-   }
+  }
 
   const existingUser = await User.findOne({ email: email });
   if (existingUser) {
