@@ -6,9 +6,12 @@ const Offer = require("../models/Offer");
  * @param {Boolean} seeOnlyOwnerOffers => Add a key owner to allFiltersFind, use for the request /offers/my-offer
  * @returns
  */
-const filterOffer = async (allInformations, seeOnlyOwnerOffers = false, offersPerPage = 5) => {
-  const { title, priceMin, priceMax, sort, page } = allInformations.query;
-  const numberLimit = offersPerPage;
+const filterOffer = async (allInformations, seeOnlyOwnerOffers = false, offersPerPage = 20) => {
+  const { title, priceMin, priceMax, sort, page, limit } = allInformations.query;
+    let numberLimit = offersPerPage;
+if(limit){
+  numberLimit = Number(limit)
+}
   let thisPage = 1;
   if (page) {
     thisPage = Number(page);
