@@ -21,7 +21,7 @@ const seeAllOffers = async(allInformations)=>{
   }
     const allOffersInformations = cleanGetOffer(allOffers,allOffersParam.counter)
     if(allOffersInformations.count === 0){
-      return { message: "This offer doesn't exist", status: 404 };
+      return { message: "There is no offer yet", status: 404 };
 
     }
     if(allOffersParam.thisPage > Math.ceil(allOffersInformations.count/allOffersParam.numberLimit)){

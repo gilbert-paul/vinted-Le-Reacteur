@@ -25,6 +25,7 @@ const cleanGetOffer = (allOffers,counter) => {
           username: allOffers[i].owner.account.username,
         },
       },
+      id:allOffers[i]._id
 
     };
     if(allOffers[i].product_image){
