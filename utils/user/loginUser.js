@@ -16,13 +16,16 @@ const encBase64 = require("crypto-js/enc-base64");
  * @returns {Promise<Result>}
  */
 const loginUser = async (email,password)=>{
+if(!email && !password){
+  return { message: "Email and password are missing", status: 417 };
 
-if (!password) {
-  return { message: "Password missing", status: 417 };
 }
-if (!email) {
-  return { message: "Email missing", status: 417 };
-}
+  if (!email) {
+    return { message: "Email missing", status: 417 };
+    }
+      if (!password) {
+        return { message: "Password missing", status: 417 };
+      }
 
 const thisUser = await User.findOne({ email: email });
 if (!thisUser) {
