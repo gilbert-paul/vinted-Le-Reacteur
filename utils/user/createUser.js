@@ -8,7 +8,9 @@ const emailVerify = require("../emailVerifiy.js");
 const userVerify = require("../userVerify.js");
 /**
  * @typedef Result
+ * @property {String | Object} data
  * @property {String | Object} message
+ *
  * @property {Number} status
  */
 /**
@@ -87,6 +89,6 @@ const createUser = async (allInformationsUser, avatar) => {
     },
   };
 
-  return { message: userInformations, status: 201 };
+  return { data: userInformations, message:"Identifiant créé avec succès", status: 201 };
 };
 module.exports = createUser;
