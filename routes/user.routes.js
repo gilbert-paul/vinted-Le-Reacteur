@@ -27,7 +27,7 @@ router.post("/signup", fileUpload(), async (req, res) => {
 router.get("/login", async (req, res) => {
   console.log(req)
   try {
-    const { email, password } = req.body;
+    const { email, password } = req.query;
     const result = await loginUser(email, password);
     return res.status(result.status).json({message: result.message, data: result.data});
   } catch (error) {
