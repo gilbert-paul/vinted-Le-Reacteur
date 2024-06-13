@@ -4,6 +4,8 @@ const filterOffer = require("../filterOffer");
 /**
  * @typedef Result
  * @property {String | Object} message
+ * @property {String | Object} data
+ * 
  * @property {Number} status
  */
 /**
@@ -27,7 +29,7 @@ const seeAllOffers = async(allInformations)=>{
     if(allOffersParam.thisPage > Math.ceil(allOffersInformations.count/allOffersParam.numberLimit)){
       return { message: `There is no offer on this page, the last offer is page ${Math.ceil(allOffersInformations.count/allOffersParam.numberLimit)}`, status: 404 };
     }
-    return { message: allOffersInformations, status: 202 };
+    return { data: allOffersInformations, message:"All Offers", status: 202 };
 
 }
 

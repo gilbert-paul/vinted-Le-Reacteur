@@ -4,6 +4,8 @@ const filterOffer = require("../filterOffer");
 /**
  * @typedef Result
  * @property {String | Object} message
+ *  * @property {String | Object} data
+
  * @property {Number} status
  */
 /**
@@ -21,7 +23,7 @@ const seeMyOffers = async (allInformations) => {
 
   const allOffersInformations = cleanGetOffer(allOffers, allOffersParam.counter)
   if(allOffersInformations.count === 0){
-    return { message: "This offer doesn't exist", status: 404 };
+    return { data: "This offer doesn't exist", message: "My Offers" status: 404 };
 
   }
 

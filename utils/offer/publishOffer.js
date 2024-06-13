@@ -6,6 +6,8 @@ const cloudinary = require("cloudinary").v2;
 /**
  * @typedef Result
  * @property {String | Object} message
+ * @property {String | Object} data
+ * 
  * @property {Number} status
  */
 /**
@@ -75,7 +77,7 @@ const publishOffer = async (allInformations, user, image) => {
     "owner",
     "account.username account.avatar.secure_url"
   );
-  return { message: resultOwner, status: 201 };
+  return { data: resultOwner, message: "Offer publicated", status: 201 };
 };
 
 module.exports = publishOffer;

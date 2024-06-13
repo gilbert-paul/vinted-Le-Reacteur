@@ -32,7 +32,7 @@ const deleteAllFromAnUser = async (user) => {
   }
   await User.findByIdAndDelete(user._id);
 
-  return { message: "User deleted", status: 202 };
+  return { data:null, message: "User deleted", status: 202 };
 };
 
 module.exports = deleteAllFromAnUser;

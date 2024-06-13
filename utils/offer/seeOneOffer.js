@@ -4,6 +4,8 @@ const cleanGetOffer = require("../cleanGetOffer");
 /**
  * @typedef Result
  * @property {String | Object} message
+ *  * @property {String | Object} data
+
  * @property {Number} status
  */
 /**
@@ -21,7 +23,7 @@ const seeOneOffer = async (thisOfferID) => {
     }
     const thisOfferArray = [thisOffer];
     const offerInformations = cleanGetOffer(thisOfferArray, 1);
-    return { message: offerInformations.offers[0], status: 202 };
+    return { data: offerInformations.offers[0], message:"One Offer" status: 202 };
 
 };
 

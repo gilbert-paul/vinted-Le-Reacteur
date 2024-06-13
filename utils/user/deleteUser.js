@@ -4,6 +4,8 @@ const cloudinary = require("cloudinary").v2;
 /**
  * @typedef Result
  * @property {String | Object} message
+ * @property {String | Object} data
+ * 
  * @property {Number} status
  */
 /**
@@ -24,7 +26,7 @@ const deleteUser = async (user) => {
   }
   await User.findByIdAndDelete(user._id);
 
-  return { message: "User deleted", status: 202 };
+  return { data:null, message: "User deleted", status: 202 };
 };
 
 module.exports = deleteUser;

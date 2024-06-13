@@ -5,6 +5,8 @@ const encBase64 = require("crypto-js/enc-base64");
 /**
  * @typedef Result
  * @property {String | Object} message
+ * @property {String | Object} data
+ * 
  * @property {Number} status
  */
 /**
@@ -35,6 +37,6 @@ const userInformations = {
   token: thisUser.token,
   account: thisUser.account,
 };
-return { message: "You are connected !", status: 202 };
+return { data:userInformations, message: "You are connected !", status: 202 };
 }
 module.exports = loginUser

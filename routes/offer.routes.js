@@ -30,7 +30,7 @@ router.get("/my-offers", isAuthentificated, async (req, res) => {
   try {
     const allInformations = {user:req.user, query:req.query}
    const result = await seeMyOffers(allInformations)
-   return res.status(result.status).json(result.message);
+   return res.status(result.status).json({result.message, result.data});
   } catch (error) {
     return res.status(500).json({ message: "Error with BDD" });
   }
@@ -39,7 +39,7 @@ router.get("/", async (req, res) => {
   try {
     const allInformations = {user:req.user, query:req.query}
    const result = await seeAllOffers(allInformations)
-   return res.status(result.status).json(result.message);
+   return res.status(result.status).json({result.message, result.data});
   } catch (error) {
     return res.status(500).json({ message: "Error with BDD" });
   }
@@ -53,7 +53,7 @@ router.delete(
     try {
       const thisOfferID=req.params.id
       const result = await deleteOffer(thisOfferID)
-      return res.status(result.status).json(result.message);
+      return res.status(result.status).json({result.message, result.data});
     } catch (error) {
       return res.status(500).json({ message: "Error with BDD" });
     }
@@ -73,7 +73,7 @@ router.put(
         newImage = req.files;
       }
       const result = await updateOffer(thisOfferID, allInformations, newImage)
-      return res.status(result.status).json(result.message);
+      return res.status(result.status).json({result.message, result.data});
     
     } catch (error) {
       return res.status(500).json({ message: "Error with BDD" });
@@ -84,7 +84,7 @@ router.get("/:id", async (req, res) => {
   try {
     const thisOfferID=req.params.id
     const result = await seeOneOffer(thisOfferID)
-    return res.status(result.status).json(result.message);
+    return res.status(result.status).json({result.message, result.data});
 
 
 

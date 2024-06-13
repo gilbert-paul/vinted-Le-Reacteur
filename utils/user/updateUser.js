@@ -6,6 +6,8 @@ const cloudinary = require("cloudinary").v2;
 /**
  * @typedef Result
  * @property {String | Object} message
+ * @property {String | Object} data
+ * 
  * @property {Number} status
  */
 /**
@@ -51,7 +53,7 @@ const updateUser = async (user, username, email, newsletter, newAvatar) => {
 
   await thisUser.markModified("account.avatar");
   await thisUser.save();
-  return { message: "Modifications saved", status: 202 };
+  return { data:thisUser, message: "Modifications saved", status: 202 };
 };
 
 module.exports = updateUser;

@@ -4,6 +4,8 @@ const cloudinary = require("cloudinary").v2;
 /**
  * @typedef Result
  * @property {String | Object} message
+ *  * @property {String | Object} data
+
  * @property {Number} status
  */
 /**
@@ -72,7 +74,7 @@ const updateOffer = async (thisOfferID, allInformations, newImage) => {
   await thisOffer.markModified("product_image");
 
   await thisOffer.save();
-  return { message: thisOffer, status: 202 };
+  return { data: thisOffer, message:"Offer Updated", status: 202 };
 };
 
 module.exports = updateOffer;

@@ -4,6 +4,8 @@ const Offer = require("../../models/Offer");
 /**
  * @typedef Result
  * @property {String | Object} message
+ * @property {String | Object} data
+ * 
  * @property {Number} status
  */
 /**
@@ -23,7 +25,7 @@ const deleteOffer = async(thisOfferID)=>{
       }
     }
     await Offer.findByIdAndDelete(thisOfferID);
-    return { message: "Offer deteled with success !", status: 202 };
+    return { data:null, message: "Offer deteled with success !", status: 202 };
 }
 
 module.exports = deleteOffer
