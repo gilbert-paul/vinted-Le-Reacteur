@@ -23,7 +23,7 @@ const seeOneOffer = async (thisOfferID) => {
     }
     const thisOfferArray = [thisOffer];
     const offerInformations = cleanGetOffer(thisOfferArray, 1);
-    return { data: offerInformations.offers[0], message:"One Offer" status: 202 };
+    return { data: offerInformations.offers[0], message:"One Offer", status: 202 };
 
 };
 

@@ -23,7 +23,7 @@ const seeMyOffers = async (allInformations) => {
 
   const allOffersInformations = cleanGetOffer(allOffers, allOffersParam.counter)
   if(allOffersInformations.count === 0){
-    return { data: "This offer doesn't exist", message: "My Offers" status: 404 };
+    return { data: "This offer doesn't exist", message: "My Offers", status: 404 };
 
   }
 

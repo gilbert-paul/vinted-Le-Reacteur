@@ -18,7 +18,7 @@ router.post("/signup", fileUpload(), async (req, res) => {
     const result = await createUser(
       allInformationsUser, avatar
     );
-    return res.status(result.status).json({result.message, result.data});
+    return res.status(result.status).json({message: result.message, data: result.data});
   } catch (error) {
     return res.status(500).json({ message: "Error with BDD" });
   }
@@ -28,7 +28,7 @@ router.get("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     const result = await loginUser(email, password);
-    return res.status(result.status).json({result.message, result.data});
+    return res.status(result.status).json({message: result.message, data: result.data});
   } catch (error) {
     return res.status(500).json({ message: "Error with BDD" });
   }
@@ -50,7 +50,7 @@ router.put("/update", isAuthentificated, fileUpload(), async (req, res) => {
       newsletter,
       newAvatar
     );
-    return res.status(result.status).json({result.message, result.data});
+    return res.status(result.status).json({message: result.message, data: result.data});
   } catch (error) {
     return res.status(500).json({ message: "Error with BDD" });
   }
@@ -60,7 +60,7 @@ router.delete("/delete", isAuthentificated, fileUpload(), async (req, res) => {
   try {
     const user = req.user;
     const result = await deleteUser(user);
-    return res.status(result.status).json({result.message, result.data});
+    return res.status(result.status).json({message: result.message, data: result.data});
   } catch (error) {
     return res.status(500).json({ message: "Error with BDD" });
   }
@@ -73,7 +73,7 @@ router.delete(
     try {
       const user = req.user;
       const result = await deleteAllFromAnUser(user);
-      return res.status(result.status).json({result.message, result.data});
+      return res.status(result.status).json({message: result.message, data: result.data});
     } catch (error) {
       return res.status(500).json({ message: "Error with BDD" });
     }
