@@ -63,14 +63,17 @@ const publishOffer = async (allInformations, user, image) => {
   });
   let productImage = {};
   await newOffer.save();
-  if (image.picture) {
-    productImage = await cloudinary.uploader.upload(
-      convertToBase64(image.picture),
+  if (image.picture.length>0) {
+    image.picture.map(async(img)=>{
+
+      productImage = await cloudinary.uploader.upload(
+        convertToBase64(img),
       { folder: `${process.env.CLOUDINARY_FOLDER}/offer/${newOffer._id}` }
     );
-    newOffer.product_pictures.push(productImage);
-    newOffer.product_image = productImage;
-  }
+  newOffer.product_pictures.push(productImage);
+newOffer.product_image = productImage;
+})
+}
   await newOffer.markModified("product_image");
   await newOffer.save();
   const resultOwner = await newOffer.populate(

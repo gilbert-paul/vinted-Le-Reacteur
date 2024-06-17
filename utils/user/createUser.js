@@ -21,7 +21,6 @@ const userVerify = require("../userVerify.js");
  */
 const createUser = async (allInformationsUser, avatar) => {
   const { username, email, password, newsletter } = allInformationsUser;
-
   const missingInformations = userVerify(allInformationsUser);
   if (missingInformations.length === 1) {
     return {
@@ -66,7 +65,6 @@ const createUser = async (allInformationsUser, avatar) => {
     hash: hash,
     salt: salt,
   });
-
   await newUser.save();
   let avatarInformations = {};
   if (avatar.avatar) {
