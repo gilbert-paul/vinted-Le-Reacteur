@@ -7,7 +7,7 @@ const cloudinary = require("cloudinary").v2;
  * @typedef Result
  * @property {String | Object} message
  * @property {String | Object} data
- * 
+ *
  * @property {Number} status
  */
 /**
@@ -63,19 +63,21 @@ const publishOffer = async (allInformations, user, image) => {
   });
   let productImage = {};
   await newOffer.save();
-  console.log(image)
-  if (image.picture.length>0) {
-    console.log(image)
-    image.picture.map(async(img)=>{
-
+  const pictures = Object.values(image);
+  console.log(pictures);
+  if (pictures.length > 0) {
+    for (let i = 0; i < pictures.length; i++) {
+      console.log(pictures[i]);
       productImage = await cloudinary.uploader.upload(
-        convertToBase64(img),
-      { folder: `${process.env.CLOUDINARY_FOLDER}/offer/${newOffer._id}` }
-    );
-  newOffer.product_pictures.push(productImage);
-newOffer.product_image = productImage;
-  })
-}
+        convertToBase64(pictures[i]),
+        { folder: `${process.env.CLOUDINARY_FOLDER}/offer/${newOffer._id}` }
+      );
+      console.log("te")
+      newOffer.product_pictures.push(productImage);
+      newOffer.product_image = productImage;
+    }
+  }
+  console.log(newOffer);
   await newOffer.markModified("product_image");
   await newOffer.save();
   const resultOwner = await newOffer.populate(

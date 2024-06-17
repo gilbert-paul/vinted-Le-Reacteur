@@ -13,12 +13,13 @@ const updateOffer = require("../utils/offer/updateOffer.js");
 
 router.post("/publish", isAuthentificated, fileUpload(), async (req, res) => {
   try {
+
     const allInformations = req.body
     const user= req.user
     let image = [];
     console.log(req.files)
     if (req.files) {
-      image=[req.files]
+      image=req.files
     }
 
     const result = await publishOffer(allInformations,user, image)
