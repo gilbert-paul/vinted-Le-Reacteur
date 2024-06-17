@@ -15,10 +15,10 @@ router.post("/publish", isAuthentificated, fileUpload(), async (req, res) => {
   try {
     const allInformations = req.body
     const user= req.user
+    let image = [];
     console.log(req.files)
-    let image = {};
     if (req.files) {
-      image = req.files;
+      image=[req.files]
     }
 
     const result = await publishOffer(allInformations,user, image)

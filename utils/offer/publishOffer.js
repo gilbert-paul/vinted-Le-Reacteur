@@ -14,7 +14,7 @@ const cloudinary = require("cloudinary").v2;
  *
  * @param {Object} allInformations
  * @param {Object} user
- * @param {Object} image
+ * @param {array} image
  * @returns {Promise<Result>}
  */
 const publishOffer = async (allInformations, user, image) => {
@@ -63,11 +63,12 @@ const publishOffer = async (allInformations, user, image) => {
   });
   let productImage = {};
   await newOffer.save();
-  if (image.picture.length>0) {
-    image.picture.map(async(img)=>{
+  if (image.length>0) {
+    console.log(image)
+    image.map(async(img)=>{
 
       productImage = await cloudinary.uploader.upload(
-        convertToBase64(img),
+        convertToBase64(img.picture),
       { folder: `${process.env.CLOUDINARY_FOLDER}/offer/${newOffer._id}` }
     );
   newOffer.product_pictures.push(productImage);
