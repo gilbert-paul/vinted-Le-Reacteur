@@ -17,7 +17,7 @@ const seeOneOffer = async (thisOfferID) => {
 
     const thisOffer = await Offer.findById(thisOfferID)
       .populate("owner")
-      .populate({ path: "account.avatar", strictPopulate: false })
+      .populate({ path: "account.avatar, _id", strictPopulate: false })
     if (!thisOffer) {
       return { message: "This offer doesn't exist", status: 404 };
     }
