@@ -19,8 +19,7 @@ const cleanGetOffer = require("../cleanGetOffer");
  */
 const seeOneOffer = async (thisOfferID) => {
     const thisOwner = await Offer.findById(thisOfferID).populate("owner")
-    const thisBuyer = await Offer.findById(thisOfferID).populate("buyer")
-    console.log(thisOwner.owner)
+    const thisBuyer = await Offer.findById(thisOfferID).populate("bought")
     const thisOffer = await Offer.findById(thisOfferID)
       .populate("owner")
       .populate({ path: "account.avatar", strictPopulate: false })
@@ -29,7 +28,7 @@ const seeOneOffer = async (thisOfferID) => {
     }
     const thisOfferArray = [thisOffer];
     const offerInformations = cleanGetOffer(thisOfferArray, 1);
-    return { data: offerInformations.offers[0], owner: thisOwner.owner.token, buyer: thisBuyer.buyer, message:"One Offer", status: 202 };
+    return { data: offerInformations.offers[0], owner: thisOwner.owner.token, buyer: thisBuyer.bought, message:"One Offer", status: 202 };
 
 };
 
