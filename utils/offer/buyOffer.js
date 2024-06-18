@@ -16,11 +16,12 @@ const buyOffer = async (allInformations, user, id) => {
   const thisOffer = await Offer.findById(id);
   if (thisOffer && !thisOffer.bought.isBought) {
     thisOffer.bought.isBought = true;
+    thisOffer.bought.buyer = user;
 
     await thisOffer.save();
     return {
       data: thisOffer,
-      message: "Offer bought with success !",
+      message: `Offer bought with success by ${user.account.username} !`,
       status: 202,
     };
   }
