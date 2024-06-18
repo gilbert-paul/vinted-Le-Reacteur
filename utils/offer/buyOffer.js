@@ -35,13 +35,14 @@ const buyOffer = async (user, id) => {
 
       const theSeller = await User.findById(thisOfferSeller.owner._id)
       console.log(theSeller)
-        const date = new Date()
-        const theDate = date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear() + " - " + date.getHours() + "H" + date.getMinutes()
+        let date = new Date()
+        date.toLocaleDateString("fr-FR")
+        let theDate = date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear() + " - " + date.getHours() + "H" + date.getMinutes()
       const newTransaction = await new Transaction({
             buyer:theBuyer,
             seller:theSeller,
             offer:thisOffer,
-            date:theDate
+            date:theDate,
       })
       await newTransaction.save()
       
