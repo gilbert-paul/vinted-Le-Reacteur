@@ -35,6 +35,7 @@ if(limit){
     const sortArray = sort.split("-");
     sortFilter = { product_price: sortArray[1] };
   }
+  console.log(allFiltersFind)
   const counter = (await Offer.find(allFiltersFind)).length
   const allOffers = await Offer.find(allFiltersFind)
     .populate("owner","account")
