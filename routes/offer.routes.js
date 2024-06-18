@@ -99,7 +99,6 @@ router.get("/:id", async (req, res) => {
 router.post("/payment/:id", isAuthentificated, fileUpload(), async (req, res) => {
   try {
 
-    const allInformations = req.body
     const user= req.user
 
     const id = req.params.id

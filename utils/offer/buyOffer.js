@@ -15,7 +15,7 @@ const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
  * @param {String} thisOfferID
  * @returns {Promise<Result>}
  */
-const buyOffer = async (allInformations, user, id) => {
+const buyOffer = async (user, id) => {
   try {
     const thisOffer = await Offer.findById(id);
     if (thisOffer && !thisOffer.bought.isBought) {
