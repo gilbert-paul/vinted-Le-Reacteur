@@ -19,7 +19,7 @@ const buyOffer = async (user, id) => {
   try {
     console.log(id)
     const thisOffer = await Offer.findById(id);
-    // if (thisOffer && !thisOffer.bought.isBought) {
+     if (thisOffer && !thisOffer.bought.isBought) {
       
       console.log(thisOffer)
       const paymentIntent = await stripe.paymentIntents.create({
@@ -37,7 +37,7 @@ const buyOffer = async (user, id) => {
         message: `Offer bought with success by ${user.account.username} !`,
         status: 202,
       };
-    // }
+     }
     
   } catch (error) {
     return {
