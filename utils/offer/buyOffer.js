@@ -1,6 +1,7 @@
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 const Offer = require("../../models/Offer");
 const Transaction = require("../../models/Transaction");
+const User = require("../../models/User");
 
 /**
  * @typedef Result
@@ -29,13 +30,18 @@ const buyOffer = async (user, id) => {
         });
         thisOffer.bought.isBought = true;
       thisOffer.bought.buyer = user;
+      const theBuyer = await User.findById(user._id)
+    const thisOfferSeller = await Offer.findById(id).populate("owner._id");
+
+      const theSeller = await User.findById(thisOfferSeller.owner._id)
+
       const newTransaction = await new Transaction({
-            buyer:user,
-            selller:thisOffer.owner,
+            buyer:theBuyer,
+            selller:theSeller,
             offer:thisOffer,
             date:"Date"
       })
-      
+       console.log(newTransaction)
       
       await thisOffer.save();
       await newTransaction.save()
