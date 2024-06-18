@@ -11,7 +11,6 @@ router.get("/buy", isAuthentificated, async (req, res) => {
     const sellTransactions = await Transaction.find({
       buyer: { _id: user._id },
     }).populate("seller buyer offer");
-    console.log(sellTransactions);
     const result = {
       status: 200,
       message: "sell",

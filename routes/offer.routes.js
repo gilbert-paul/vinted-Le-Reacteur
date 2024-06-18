@@ -16,7 +16,6 @@ router.post("/publish", isAuthentificated, fileUpload(), async (req, res) => {
     const allInformations = req.body;
     const user = req.user;
     let image = [];
-    console.log(req.files);
     if (req.files) {
       image = req.files;
     }

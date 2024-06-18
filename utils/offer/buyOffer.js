@@ -19,7 +19,6 @@ const User = require("../../models/User");
  */
 const buyOffer = async (user, id) => {
   try {
-    console.log(id);
     const thisOffer = await Offer.findById(id);
     if (thisOffer && !thisOffer.bought.isBought) {
       const paymentIntent = await stripe.paymentIntents.create({
@@ -33,7 +32,6 @@ const buyOffer = async (user, id) => {
       const thisOfferSeller = await Offer.findById(id).populate("owner");
 
       const theSeller = await User.findById(thisOfferSeller.owner._id);
-      console.log(theSeller);
       let date = new Date();
       date.toLocaleDateString("fr-FR");
       let theDate =
