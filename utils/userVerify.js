@@ -10,12 +10,7 @@ const userVerify = (user) => {
     user.password,
     user.newsletter,
   ];
-  const keysInformations = [
-    "username",
-    "email",
-    "password",
-    "newsletter",
-  ];
+  const keysInformations = ["username", "email", "password", "newsletter"];
   const missingInformations = [];
   for (let i = 0; i < informationsArray.length; i++) {
     if (!informationsArray[i]) {

@@ -13,8 +13,7 @@ const Transaction = mongoose.model("Transaction", {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Offer",
   },
-  date:String
-}
-);
+  date: String,
+});
 
 module.exports = Transaction;

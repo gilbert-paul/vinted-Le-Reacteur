@@ -2,7 +2,7 @@
  *
  * @param {Object} allOffers
  */
-const cleanGetOffer = (allOffers,counter) => {
+const cleanGetOffer = (allOffers, counter) => {
   const allOffersInformations = {
     count: counter,
     offers: [],
@@ -25,15 +25,15 @@ const cleanGetOffer = (allOffers,counter) => {
           username: allOffers[i].owner.account.username,
         },
       },
-      id:allOffers[i]._id
-
+      id: allOffers[i]._id,
     };
-    if(allOffers[i].product_image){
-      offerInformations.product_image = allOffers[i].product_image.secure_url
+    if (allOffers[i].product_image) {
+      offerInformations.product_image = allOffers[i].product_image.secure_url;
     }
-      if(allOffers[i].owner.account.avatar){
-        offerInformations.owner.account.avatar = allOffers[i].owner.account.avatar.secure_url
-      }
+    if (allOffers[i].owner.account.avatar) {
+      offerInformations.owner.account.avatar =
+        allOffers[i].owner.account.avatar.secure_url;
+    }
     allOffersInformations.offers.push(offerInformations);
   }
   return allOffersInformations;

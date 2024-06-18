@@ -11,38 +11,42 @@ const seeOneOffer = require("../utils/offer/seeOneOffer.js");
 const updateOffer = require("../utils/offer/updateOffer.js");
 const buyOffer = require("../utils/offer/buyOffer.js");
 
-
 router.post("/publish", isAuthentificated, fileUpload(), async (req, res) => {
   try {
-
-    const allInformations = req.body
-    const user= req.user
+    const allInformations = req.body;
+    const user = req.user;
     let image = [];
-    console.log(req.files)
+    console.log(req.files);
     if (req.files) {
-      image=req.files
+      image = req.files;
     }
 
-    const result = await publishOffer(allInformations,user, image)
-    return res.status(result.status).json({message: result.message, data: result.data});
+    const result = await publishOffer(allInformations, user, image);
+    return res
+      .status(result.status)
+      .json({ message: result.message, data: result.data });
   } catch (error) {
     return res.status(500).json({ message: "Error with BDD" });
   }
 });
 router.get("/my-offers", isAuthentificated, async (req, res) => {
   try {
-    const allInformations = {user:req.user, query:req.query}
-   const result = await seeMyOffers(allInformations)
-   return res.status(result.status).json({message: result.message, data: result.data});
+    const allInformations = { user: req.user, query: req.query };
+    const result = await seeMyOffers(allInformations);
+    return res
+      .status(result.status)
+      .json({ message: result.message, data: result.data });
   } catch (error) {
     return res.status(500).json({ message: "Error with BDD" });
   }
 });
 router.get("/", async (req, res) => {
   try {
-    const allInformations = {user:req.user, query:req.query}
-   const result = await seeAllOffers(allInformations)
-   return res.status(result.status).json({message: result.message, data: result.data});
+    const allInformations = { user: req.user, query: req.query };
+    const result = await seeAllOffers(allInformations);
+    return res
+      .status(result.status)
+      .json({ message: result.message, data: result.data });
   } catch (error) {
     return res.status(500).json({ message: "Error with BDD" });
   }
@@ -54,9 +58,11 @@ router.delete(
   fileUpload(),
   async (req, res) => {
     try {
-      const thisOfferID=req.params.id
-      const result = await deleteOffer(thisOfferID)
-      return res.status(result.status).json({message: result.message, data: result.data});
+      const thisOfferID = req.params.id;
+      const result = await deleteOffer(thisOfferID);
+      return res
+        .status(result.status)
+        .json({ message: result.message, data: result.data });
     } catch (error) {
       return res.status(500).json({ message: "Error with BDD" });
     }
@@ -69,15 +75,16 @@ router.put(
   fileUpload(),
   async (req, res) => {
     try {
-      const thisOfferID = req.params.id
-      const allInformations = req.body
+      const thisOfferID = req.params.id;
+      const allInformations = req.body;
       let newImage = {};
       if (req.files) {
         newImage = req.files;
       }
-      const result = await updateOffer(thisOfferID, allInformations, newImage)
-      return res.status(result.status).json({message: result.message, data: result.data});
-    
+      const result = await updateOffer(thisOfferID, allInformations, newImage);
+      return res
+        .status(result.status)
+        .json({ message: result.message, data: result.data });
     } catch (error) {
       return res.status(500).json({ message: "Error with BDD" });
     }
@@ -85,27 +92,41 @@ router.put(
 );
 router.get("/:id", async (req, res) => {
   try {
-    const thisOfferID=req.params.id
-    const result = await seeOneOffer(thisOfferID)
-    return res.status(result.status).json({message: result.message, owner:result.owner, buyer:result.buyer, data: result.data});
-
-
-
+    const thisOfferID = req.params.id;
+    const result = await seeOneOffer(thisOfferID);
+    return res
+      .status(result.status)
+      .json({
+        message: result.message,
+        owner: result.owner,
+        buyer: result.buyer,
+        data: result.data,
+      });
   } catch (error) {
     return res.status(500).json({ message: "Error with BDD" });
   }
 });
 
-router.post("/payment/:id", isAuthentificated, fileUpload(), async (req, res) => {
-  try {
+router.post(
+  "/payment/:id",
+  isAuthentificated,
+  fileUpload(),
+  async (req, res) => {
+    try {
+      const user = req.user;
 
-    const user= req.user
-
-    const id = req.body.id
-    const result = await buyOffer(user, id)
-    return res.status(result.status).json({message: result.message, data: result.data, paymentIntent: result.paymentIntent});
-  } catch (error) {
-    return res.status(500).json({ message: "Error with BDD" });
+      const id = req.body.id;
+      const result = await buyOffer(user, id);
+      return res
+        .status(result.status)
+        .json({
+          message: result.message,
+          data: result.data,
+          paymentIntent: result.paymentIntent,
+        });
+    } catch (error) {
+      return res.status(500).json({ message: "Error with BDD" });
+    }
   }
-});
+);
 module.exports = router;

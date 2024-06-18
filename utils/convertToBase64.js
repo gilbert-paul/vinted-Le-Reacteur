@@ -1,6 +1,6 @@
 /**
- * 
- * @param {Object} file 
+ *
+ * @param {Object} file
  * @returns {String}
  */
 const convertToBase64 = (file) => {

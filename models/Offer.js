@@ -11,13 +11,13 @@ const Offer = mongoose.model("Offer", {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  bought:{
-    isBought:Boolean,
+  bought: {
+    isBought: Boolean,
     buyer: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  }
-}
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  },
 });
 
 module.exports = Offer;

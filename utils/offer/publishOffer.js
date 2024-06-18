@@ -60,7 +60,7 @@ const publishOffer = async (allInformations, user, image) => {
     product_pictures: [],
     product_image: {},
     owner: user,
-    bought:{isBought:false}
+    bought: { isBought: false },
   });
   let productImage = {};
   await newOffer.save();
@@ -73,7 +73,7 @@ const publishOffer = async (allInformations, user, image) => {
         convertToBase64(pictures[i]),
         { folder: `${process.env.CLOUDINARY_FOLDER}/offer/${newOffer._id}` }
       );
-      console.log("te")
+      console.log("te");
       newOffer.product_pictures.push(productImage);
       newOffer.product_image = productImage;
     }

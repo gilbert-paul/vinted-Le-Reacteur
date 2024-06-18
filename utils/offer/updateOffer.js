@@ -9,7 +9,7 @@ const cloudinary = require("cloudinary").v2;
  * @property {Number} status
  */
 /**
- * 
+ *
  * @param {String} thisOfferID
  * @param {Object} allInformations
  * @param {Object} newImage
@@ -29,13 +29,13 @@ const updateOffer = async (thisOfferID, allInformations, newImage) => {
       convertToBase64(newImage.picture),
       { folder: `${process.env.CLOUDINARY_FOLDER}/offer/${thisOffer._id}` }
     );
-    thisOffer.product_pictures.push(result)
+    thisOffer.product_pictures.push(result);
     thisOffer.product_image = result;
   }
 
   if (title) {
     if (title.length > 50) {
-    return { message: "Your title is too long...", status: 417 };
+      return { message: "Your title is too long...", status: 417 };
     }
 
     thisOffer.product_name = title;
@@ -43,14 +43,12 @@ const updateOffer = async (thisOfferID, allInformations, newImage) => {
   if (description) {
     if (description.length > 500) {
       return { message: "Your description is too long...", status: 417 };
-
     }
     thisOffer.description = description;
   }
   if (price) {
     if (Number(price) > 100000) {
-    return { message: "Your price is too hight...", status: 417 };
-
+      return { message: "Your price is too hight...", status: 417 };
     }
 
     thisOffer.price = price;
@@ -74,7 +72,7 @@ const updateOffer = async (thisOfferID, allInformations, newImage) => {
   await thisOffer.markModified("product_image");
 
   await thisOffer.save();
-  return { data: thisOffer, message:"Offer Updated", status: 202 };
+  return { data: thisOffer, message: "Offer Updated", status: 202 };
 };
 
 module.exports = updateOffer;

@@ -87,6 +87,10 @@ const createUser = async (allInformationsUser, avatar) => {
     },
   };
 
-  return { data: userInformations, message:"Compte créé avec succès", status: 201 };
+  return {
+    data: userInformations,
+    message: "Compte créé avec succès",
+    status: 201,
+  };
 };
 module.exports = createUser;
