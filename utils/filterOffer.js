@@ -17,7 +17,7 @@ if(limit){
     thisPage = Number(page);
   }
   const allFiltersFind = {};
-  allFiltersFind.bought.isBought=false;
+  allFiltersFind.bought= {isBought:false};
   if (seeOnlyOwnerOffers) {
     allFiltersFind.owner = allInformations.user._id;
   }
