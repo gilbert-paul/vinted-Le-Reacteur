@@ -5,6 +5,8 @@ const cleanGetOffer = require("../cleanGetOffer");
  * @typedef Result
  * @property {String | Object} message
  *  * @property {String | Object} data
+ *  * @property {String | Object} owner
+ * 
 
  * @property {Number} status
  */
@@ -14,16 +16,17 @@ const cleanGetOffer = require("../cleanGetOffer");
  * @returns {Promise<Result>}
  */
 const seeOneOffer = async (thisOfferID) => {
-
+    const thisOwner = await Offer.findById(thisOfferID).populate("owner")
+    console.log(thisOwner.owner)
     const thisOffer = await Offer.findById(thisOfferID)
       .populate("owner")
-      .populate({ path: "account.avatar", strictPopulate: false }).populate({path:"token"})
+      .populate({ path: "account.avatar", strictPopulate: false })
     if (!thisOffer) {
       return { message: "This offer doesn't exist", status: 404 };
     }
     const thisOfferArray = [thisOffer];
     const offerInformations = cleanGetOffer(thisOfferArray, 1);
-    return { data: offerInformations.offers[0], message:"One Offer", status: 202 };
+    return { data: offerInformations.offers[0], owner: thisOwner.owner.token, message:"One Offer", status: 202 };
 
 };
 
