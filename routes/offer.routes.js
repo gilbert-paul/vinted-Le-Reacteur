@@ -9,6 +9,7 @@ const seeMyOffers = require("../utils/offer/seeMyOffers.js");
 const deleteOffer = require("../utils/offer/deleteOffer.js");
 const seeOneOffer = require("../utils/offer/seeOneOffer.js");
 const updateOffer = require("../utils/offer/updateOffer.js");
+const buyOffer = require("../utils/offer/buyOffer.js");
 
 
 router.post("/publish", isAuthentificated, fileUpload(), async (req, res) => {
@@ -90,6 +91,21 @@ router.get("/:id", async (req, res) => {
 
 
 
+  } catch (error) {
+    return res.status(500).json({ message: "Error with BDD" });
+  }
+});
+
+router.post("/payment/:id", isAuthentificated, fileUpload(), async (req, res) => {
+  try {
+
+    const allInformations = req.body
+    const user= req.user
+
+    const id = req.params.id
+
+    const result = await buyOffer(allInformations, user, id)
+    return res.status(result.status).json({message: result.message, data: result.data});
   } catch (error) {
     return res.status(500).json({ message: "Error with BDD" });
   }
