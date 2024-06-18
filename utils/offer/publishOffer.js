@@ -60,7 +60,7 @@ const publishOffer = async (allInformations, user, image) => {
     product_pictures: [],
     product_image: {},
     owner: user,
-    bougth:{isBought:false}
+    bought:{isBought:false}
   });
   let productImage = {};
   await newOffer.save();

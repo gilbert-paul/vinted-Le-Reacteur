@@ -12,7 +12,7 @@ const Offer = mongoose.model("Offer", {
     ref: "User",
   },
   bought:{
-    isBougth:Boolean,
+    isBought:Boolean,
     buyer: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
