@@ -60,6 +60,7 @@ const publishOffer = async (allInformations, user, image) => {
     product_pictures: [],
     product_image: {},
     owner: user,
+    buyer:{}
   });
   let productImage = {};
   await newOffer.save();
