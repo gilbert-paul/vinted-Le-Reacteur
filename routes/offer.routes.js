@@ -105,7 +105,7 @@ router.post("/payment/:id", isAuthentificated, fileUpload(), async (req, res) =>
     const id = req.params.id
 
     const result = await buyOffer(allInformations, user, id)
-    return res.status(result.status).json({message: result.message, data: result.data});
+    return res.status(result.status).json({message: result.message, data: result.data, paymentIntent: result.paymentIntent});
   } catch (error) {
     return res.status(500).json({ message: "Error with BDD" });
   }
