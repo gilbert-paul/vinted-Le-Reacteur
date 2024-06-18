@@ -37,16 +37,15 @@ const buyOffer = async (user, id) => {
       console.log(theSeller)
         const date = new Date()
         const theDate = date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear() + " - " + date.getHours() + "H" + date.getMinutes()
-        console.log(theDate)
       const newTransaction = await new Transaction({
             buyer:theBuyer,
             seller:theSeller,
             offer:thisOffer,
             date:theDate
       })
+      await newTransaction.save()
       
       await thisOffer.save();
-      await newTransaction.save()
       return {
         data: thisOffer,
         paymentIntent: paymentIntent,

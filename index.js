@@ -18,6 +18,7 @@ app.use(cors())
 app.use(express.json())
 app.use("/user",require('./routes/user.routes.js'))
 app.use("/offers", require('./routes/offer.routes.js'))
+app.use("/transactions", require("./routes/transaction.routes.js"))
 
 
 
