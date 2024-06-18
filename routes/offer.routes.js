@@ -87,7 +87,7 @@ router.get("/:id", async (req, res) => {
   try {
     const thisOfferID=req.params.id
     const result = await seeOneOffer(thisOfferID)
-    return res.status(result.status).json({message: result.message, owner:result.owner, data: result.data});
+    return res.status(result.status).json({message: result.message, owner:result.owner, buyer:result.buyer, data: result.data});
 
 
 

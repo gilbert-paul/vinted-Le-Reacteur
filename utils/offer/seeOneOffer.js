@@ -6,6 +6,8 @@ const cleanGetOffer = require("../cleanGetOffer");
  * @property {String | Object} message
  *  * @property {String | Object} data
  *  * @property {String | Object} owner
+ *  * @property {String | Object} buyer
+ * 
  * 
 
  * @property {Number} status
@@ -17,6 +19,7 @@ const cleanGetOffer = require("../cleanGetOffer");
  */
 const seeOneOffer = async (thisOfferID) => {
     const thisOwner = await Offer.findById(thisOfferID).populate("owner")
+    const thisBuyer = await Offer.findById(thisOfferID).populate("buyer")
     console.log(thisOwner.owner)
     const thisOffer = await Offer.findById(thisOfferID)
       .populate("owner")
@@ -26,7 +29,7 @@ const seeOneOffer = async (thisOfferID) => {
     }
     const thisOfferArray = [thisOffer];
     const offerInformations = cleanGetOffer(thisOfferArray, 1);
-    return { data: offerInformations.offers[0], owner: thisOwner.owner.token, message:"One Offer", status: 202 };
+    return { data: offerInformations.offers[0], owner: thisOwner.owner.token, buyer: thisBuyer.buyer, message:"One Offer", status: 202 };
 
 };
 
