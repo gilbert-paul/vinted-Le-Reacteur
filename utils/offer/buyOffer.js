@@ -31,17 +31,19 @@ const buyOffer = async (user, id) => {
         thisOffer.bought.isBought = true;
       thisOffer.bought.buyer = user;
       const theBuyer = await User.findById(user._id)
-    const thisOfferSeller = await Offer.findById(id).populate("owner._id");
+    const thisOfferSeller = await Offer.findById(id).populate("owner");
 
       const theSeller = await User.findById(thisOfferSeller.owner._id)
-
+      console.log(theSeller)
+        const date = new Date()
+        const theDate = date.getDate()+"/"+(date.getMonth()+1)+"/"+date.getFullYear() + " - " + date.getHours() + "H" + date.getMinutes()
+        console.log(theDate)
       const newTransaction = await new Transaction({
             buyer:theBuyer,
-            selller:theSeller,
+            seller:theSeller,
             offer:thisOffer,
-            date:"Date"
+            date:theDate
       })
-       console.log(newTransaction)
       
       await thisOffer.save();
       await newTransaction.save()
