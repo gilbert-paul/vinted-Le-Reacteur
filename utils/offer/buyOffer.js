@@ -1,5 +1,6 @@
 const stripe = require("stripe")(process.env.STRIPE_PRIVATE_KEY);
 const Offer = require("../../models/Offer");
+const Transaction = require("../../models/Transaction");
 
 /**
  * @typedef Result
@@ -28,8 +29,16 @@ const buyOffer = async (user, id) => {
         });
         thisOffer.bought.isBought = true;
       thisOffer.bought.buyer = user;
+      const newTransaction = await new Transaction({
+            buyer:user,
+            selller:thisOffer.owner,
+            offer:thisOffer,
+            date:"Date"
+      })
+      
       
       await thisOffer.save();
+      await newTransaction.save()
       return {
         data: thisOffer,
         paymentIntent: paymentIntent,
