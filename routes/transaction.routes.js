@@ -30,7 +30,6 @@ router.get("/sell", isAuthentificated, async (req, res) => {
   try {
     const user = req.user
     const sellTransactions = await Transaction.find({seller:{_id:user._id}}).populate("seller buyer offer")
-    console.log(sellTransactions)
     const result = {
       status:200,
       message:"sell",
