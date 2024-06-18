@@ -21,7 +21,6 @@ const buyOffer = async (user, id) => {
     const thisOffer = await Offer.findById(id);
      if (thisOffer && !thisOffer.bought.isBought) {
       
-      console.log(thisOffer)
       const paymentIntent = await stripe.paymentIntents.create({
         amount: Number((thisOffer.product_price * 100).toFixed(0)),
         currency: "eur",

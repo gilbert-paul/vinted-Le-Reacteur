@@ -19,7 +19,7 @@ const cleanGetOffer = require("../cleanGetOffer");
  */
 const seeOneOffer = async (thisOfferID) => {
     const thisOwner = await Offer.findById(thisOfferID).populate("owner")
-    const thisBuyer = await Offer.findById(thisOfferID).populate("bought")
+    const thisBuyer = await Offer.findById(thisOfferID).populate("bought").populate({ path: "account.avatar", strictPopulate: false })
     const thisOffer = await Offer.findById(thisOfferID)
       .populate("owner")
       .populate({ path: "account.avatar", strictPopulate: false })
